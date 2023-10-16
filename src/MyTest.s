@@ -37,24 +37,14 @@ GPIOA_ODR     EQU  0x48000014 ;ddress offset: 0x14
 	AREA MYCODE, CODE ;reserve space in memory
 		ENTRY
 		EXPORT __main
-			
-__main FUNCTION
-	LDR r0, =COUNT
-	LDR r1, =SUM
-	LDR	r2, =1
-	
-myloop
-	ADD r1,r2,r1 ;sum = i+sum
-	ADD r2, r2, #1 ; increment i
-	SUBS r4, r0, r2 ; r4=r0-r2 check if r0 and r2 are equal
-	BNE myloop
-	ADD r1,r2,r1
-	
+  		EXPORT Initialize
+
+Initialize FUNCTION
 	;GPIOC clock aktif
 	
-	LDR R6, =RCC_AHBENR	; RCC_AHBENR degerini R6'ya yükle
-	LDR R0, =0x00020000	; 0x000E0000 degerini R0'a yükle
-	STR R0, [R6]		; RCC_AHBENR harici degiskenine 0x00020000 degerini yükle
+	LDR R6, =RCC_AHBENR	; RCC_AHBENR degerini R6'ya yÃ¼kle
+	LDR R0, =0x00020000	; 0x000E0000 degerini R0'a yÃ¼kle
+	STR R0, [R6]		; RCC_AHBENR harici degiskenine 0x00020000 degerini yÃ¼kle
 	
 	; Set mode as output
 	LDR	r3, =0x00000100 ;GPIO Moder 01 port 5 as output 00 00 01 00 00 00 00 00 PA5=1
@@ -81,6 +71,19 @@ myloop
 	LDR    R0,  [R1]
 	AND.W  R0,  #0xFFFFFF0F ; no need for pull up pull down 
 	STR    R0,  [R1]
+ENDFUNC
+
+__main FUNCTION
+	LDR r0, =COUNT
+	LDR r1, =SUM
+	LDR	r2, =1
+	
+myloop
+	ADD r1,r2,r1 ;sum = i+sum
+	ADD r2, r2, #1 ; increment i
+	SUBS r4, r0, r2 ; r4=r0-r2 check if r0 and r2 are equal
+	BNE myloop
+	ADD r1,r2,r1
 
 turnON
 
@@ -106,6 +109,6 @@ delay2
 	B     delay2
 OutHere
 	B turnON
-;stop	B stop
+;stop	B stop	
 	ENDFUNC
 	END
