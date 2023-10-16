@@ -74,7 +74,8 @@ Initialize FUNCTION
 ENDFUNC
 
 __main FUNCTION
-	LDR r0, =COUNT
+; Some looping stuff here
+ 	LDR r0, =COUNT
 	LDR r1, =SUM
 	LDR	r2, =1
 	
@@ -84,7 +85,8 @@ myloop
 	SUBS r4, r0, r2 ; r4=r0-r2 check if r0 and r2 are equal
 	BNE myloop
 	ADD r1,r2,r1
-
+ 
+; REAL Program Turn on and off below
 turnON
 
 	LDR	r3, =0x00000020
